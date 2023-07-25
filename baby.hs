@@ -1,3 +1,4 @@
+-- baby's first functions
 doubleUs x y = doubleMe x + doubleMe y
 
 doubleMe x = x + x
@@ -8,6 +9,7 @@ doubleSmallNumber x = if x > 100
 
 doubleSmallNumber' x = (if x > 100 then x else x*2) + 1
 
+-- pattern matching
 lucky :: (Integral a) => a -> String
 lucky 7 = "LUCKY NUMBER SEVEN!"
 lucky x = "Sorry, not you pal!"
@@ -32,6 +34,7 @@ head' :: [a] -> a
 head' [] = error "Can't call head on an empty list!"
 head' (x:_) = x
 
+-- case
 head'' :: [a] -> a
 head'' xs = case xs of [] -> error "No head for empty lists!"
                        (x:_) -> x
@@ -54,6 +57,7 @@ capital :: String -> String
 capital "" = "Empty string, whoops"
 capital all@(x:xs) = "The first letter of " ++ all ++ " is " ++ [x]
 
+-- guards
 bmiTell :: (RealFloat a) => a -> a -> String
 bmiTell weight height
   | bmi <= skinny = "You're underweight."
@@ -74,6 +78,7 @@ a `compare'` b
   | a == b = EQ
   | otherwise = LT
 
+-- where
 initials :: String -> String -> String
 initials firstname lastname = [f] ++ "." ++ [l]
   where (f:_) = firstname
@@ -82,6 +87,7 @@ initials firstname lastname = [f] ++ "." ++ [l]
 calcBmis :: (RealFloat a) => [(a, a)] -> [a]
 calcBmis xs = [bmi | (weight, height) <- xs, let bmi = weight / height^2]
 
+-- let in
 cylinder :: (RealFloat a) => a -> a -> a
 cylinder radius height =
   let sideArea = 2 * pi * radius * height
@@ -102,6 +108,7 @@ maximum' (x:xs)
   | otherwise = maxTail
   where maxTail = maximum' xs
 
+-- recursion
 maximum'' :: (Ord a) => [a] -> a
 maximum'' [] = error "maximum of empty list"
 maximum'' [x] = x
@@ -142,3 +149,35 @@ quicksort (x:xs) =
     let smallerSorted = quicksort [a | a <- xs, a <= x]
         biggerSorted = quicksort [a | a <- xs, a > x]
     in smallerSorted ++ [x] ++ biggerSorted
+
+-- high order functions
+compareWithHundred :: (Num a, Ord a) => a -> Ordering
+compareWithHundred x = compare 100 x
+
+compareWithHundred' :: (Num a, Ord a) => a -> Ordering
+compareWithHundred' = compare 100
+
+divideByTen = (/10)
+
+applyTwice :: (a -> a) -> a -> a
+applyTwice f x = f (f x)
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' _ [] _ = []
+zipWith' _ _ [] = []
+zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
+
+flip' :: (a -> b -> c) -> (b -> a -> c)
+flip' f = g
+  where g x y = f y x
+
+map' :: (a -> b) -> [a] -> [b]
+map' _ [] = []
+map' f (x:xs) = f x : map' f xs
+
+-- if p x evaluates to True, the element gets included in the new list
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' p (x:xs)
+  | p x = x : filter' p xs
+  | otherwise = filter' p xs
