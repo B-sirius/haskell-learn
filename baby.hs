@@ -198,3 +198,37 @@ numLongChains = length (filter isLong (map chain [1..100]))
 
 numLongChains' :: Int
 numLongChains' = length (filter (\xs -> length xs > 15) (map chain [1..100]))
+
+-- foldl
+sum'' :: (Num a) => [a] -> a
+sum'' xs = foldl (\acc x -> acc + x) 0 xs
+
+sum''' :: (Num a) => [a] -> a
+sum''' = foldl (+) 0
+
+elem'' :: (Eq a) => a -> [a] -> Bool
+elem'' x xs = foldl (\acc y -> if y == x then True else acc) False xs
+
+reverse'' :: [a] -> [a]
+reverse'' = foldl (\acc x -> x : acc) []
+
+-- foldr
+map'' :: (a -> b) -> [a] -> [b]
+map'' f xs = foldr (\x acc -> f x : acc) [] xs
+
+-- scanl
+sqrtSums :: Int
+sqrtSums = length (takeWhile (<1000) (scanl1 (+) (map sqrt [1..]))) + 1
+
+-- . $
+oddSquareSum :: Integer
+oddSquareSum = sum (takeWhile (<10000) (filter odd (map (^2) [1..])))
+
+oddSquareSum' :: Integer
+oddSquareSum' = sum . takeWhile (<10000) . filter odd . map (^2) $ [1..]
+
+oddSquareSum'' :: Integer
+oddSquareSum'' =
+    let oddSquares = filter odd $ map (^2) [1..]
+        belowLimit = takeWhile (<10000) oddSquares
+    in sum belowLimit
