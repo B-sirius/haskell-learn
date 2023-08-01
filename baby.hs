@@ -267,3 +267,16 @@ data Car = Car {
   model :: String,
   year :: Int
 } deriving (Show)
+
+-- Don't put type constraints into data declarations even if it seems to make sense
+-- Because you'll have to put them into the function type declarations either way.
+data Vector a = Vector a a a deriving (Show)
+
+vplus :: (Num t) => Vector t -> Vector t -> Vector t
+(Vector i j k) `vplus` (Vector l m n) = Vector (i+l) (j+m) (k+n)
+
+vectMult :: (Num t) => Vector t -> t -> Vector t
+(Vector i j k) `vectMult` m = Vector (i*m) (j*m) (k*m)
+
+scalarMult :: (Num t) => Vector t -> Vector t -> t
+(Vector i j k) `scalarMult` (Vector l m n) = i*l + j*m + k*n
