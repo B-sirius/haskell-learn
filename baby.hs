@@ -253,15 +253,6 @@ baseCircle r = Circle (Point 0 0) r
 baseRect :: Float -> Float -> Shape
 baseRect width height = Rectangle (Point 0 0) (Point width height)
 
-data Person = Person {
-  firstName :: String,
-  lastName :: String,
-  age :: Int,
-  height :: Float,
-  phoneNumber :: String,
-  flavor :: String
-} deriving (Show)
-
 data Car = Car {
   company :: String,
   model :: String,
@@ -280,3 +271,9 @@ vectMult :: (Num t) => Vector t -> t -> Vector t
 
 scalarMult :: (Num t) => Vector t -> Vector t -> t
 (Vector i j k) `scalarMult` (Vector l m n) = i*l + j*m + k*n
+
+data Person = Person {
+  firstName :: String,
+  lastName :: String,
+  age :: Int
+} deriving (Eq, Show, Read)
